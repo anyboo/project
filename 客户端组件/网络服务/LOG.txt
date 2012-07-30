@@ -1,0 +1,59 @@
+SocketModule.h
+/////////////////
+IClientSocket->ITCPSocket
+////////////////
+//连接服务器
+virtual bool __cdecl Connect(DWORD dwServerIP, WORD wPort)=NULL;
+//连接服务器
+virtual bool __cdecl Connect(const LPCTSTR szServerIP, WORD wPort)=NULL;
+->
+//连接服务器
+virtual BYTE __cdecl Connect(DWORD dwServerIP, WORD wPort)=NULL;
+//连接服务器
+virtual BYTE __cdecl Connect(const LPCTSTR szServerIP, WORD wPort)=NULL;
+////////////////
+interface IClientSocketSink : public IUnknownEx
+{
+	//网络连接消息
+	virtual bool __cdecl OnSocketConnect(int iErrorCode, LPCTSTR pszErrorDesc, IClientSocket * pIClientSocke)=NULL;
+	//网络读取消息
+	virtual bool __cdecl OnSocketRead(CMD_Command Command, void * pBuffer, WORD wDataSize, IClientSocket * pIClientSocke)=NULL;
+	//网络关闭消息
+	virtual bool __cdecl OnSocketClose(IClientSocket * pIClientSocke, bool bCloseByServer)=NULL;
+};
+--->
+interface ITCPSocketSink : public IUnknownEx
+{
+	//网络事件
+public:
+	//连接事件
+	virtual bool __cdecl OnEventTCPSocketLink(WORD wSocketID, INT nErrorCode)=NULL;
+	//关闭事件
+	virtual bool __cdecl OnEventTCPSocketShut(WORD wSocketID, BYTE cbShutReason)=NULL;
+	//读取事件
+	virtual bool __cdecl OnEventTCPSocketRead(WORD wSocketID, CMD_Command Command, VOID * pData, WORD wDataSize)=NULL;
+};
+////////////////
+//网络组件辅助类
+class CClientSocketHelper : public CTempldateHelper<IClientSocket>
+{
+	//函数定义
+public:
+	//构造函数
+	CClientSocketHelper(void) : CTempldateHelper<IClientSocket>(IID_IClientSocket,
+		VER_IClientSocket,SOCKET_MODULE_DLL_NAME,TEXT("CreateClientSocket"))
+	{
+	}
+};
+------->
+//网络组件辅助类
+class CTCPSocketHelper : public CTempldateHelper<ITCPSocket>
+{
+	//函数定义
+public:
+	//构造函数
+	CTCPSocketHelper(void) : CTempldateHelper<ITCPSocket>(IID_ITCPSocket,
+		VER_ITCPSocket,SOCKET_MODULE_DLL_NAME,TEXT("CreateClientSocket"))
+	{
+	}
+};

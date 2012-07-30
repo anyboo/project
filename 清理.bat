@@ -1,0 +1,1 @@
+del /s *.obj *.idb *.aps *.res *.plg *.opt *.ncb *.tmp *.idb *.exp *.ilk  *.pdb *.tli *.tlh disasm.asm *.trg *.pch *.~* *.ddp  *.sbr *.htm *.dep *.manifest

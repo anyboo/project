@@ -1,0 +1,180 @@
+//BYTE		out[CHUNK];
+	//BYTE		in[CHUNK];
+
+
+	//ULONG nTotalLenght=0L;
+	//ULONG nTotalPos=0L;
+
+	//int nItemCount=m_FileListBox.GetCount();
+	//for( int i=0; i < nItemCount; i++ )
+	//	nTotalLenght+=(ULONG)m_FileListBox.GetItemData(i)/1024;
+
+	//// Initialize total progress control
+	//((CProgressCtrl*)GetDlgItem(IDC_TOTAL_PROGRESS))->SetRange32(0, nTotalLenght);
+	//((CButton*)GetDlgItem(IDC_LOAD_FILES))->EnableWindow(FALSE);
+	//((CButton*)GetDlgItem(IDC_REMOVE_FILE))->EnableWindow(FALSE);
+	//((CButton*)GetDlgItem(IDC_BUILD))->EnableWindow(FALSE);
+
+	//for( int i=0; i < nItemCount; i++ )
+	//{
+	//	FILE *source, *dest;
+	//	
+	//	CString strSourceFile;
+	//	CString strDestFile;
+	//	ULONG	nCurrentPos=0;
+	//	ULONG   nFileLength;
+
+	//	int			ret,flush;
+	//	z_stream	strm;
+	//	UINT		have;
+
+	//	m_FileListBox.GetText(i, strSourceFile);
+	//	strDestFile=m_strOutputPath;
+	//	strDestFile+=strSourceFile.Mid(strSourceFile.ReverseFind('\\')+1);
+	//	strDestFile+=TEXT(".zip");
+
+	//	//strDestFile=strItemText;
+	//	//strDestFile=strDestFile.Mid(0, strDestFile.ReverseFind('.'));
+
+	//	if( (source=fopen(strSourceFile, "r")) == NULL )
+	//	{
+	//		TRACE("Filed to open the %s file.\n", strSourceFile);
+	//		return;
+	//	}
+
+	//	fseek(source, 0, SEEK_SET);
+	//	ASSERT(!feof(source));
+
+	//	if( (dest=fopen(strDestFile, "a")) == NULL )
+	//	{
+	//		TRACE(TEXT("Failed to create the %s file.\n"), strDestFile);
+	//		return;
+	//	}
+
+	//	nFileLength=(ULONG)m_FileListBox.GetItemData(i);
+
+	//	// Initialize progress controls
+	//	((CProgressCtrl*)GetDlgItem(IDC_CURRENT_PROGRESS))->SetRange32(0, nFileLength/1024);
+	//	SetDlgItemText(IDC_STATUS_TEXT, TEXT("ÕýÔÚÑ¹Ëõ£º")+strSourceFile);
+
+	//	
+	//	// Allocate default state
+	//	strm.zalloc = Z_NULL;
+	//	strm.zfree = Z_NULL;
+	//	strm.opaque = Z_NULL;
+	//	ret = deflateInit(&strm, 6);
+	//	if( ret != Z_OK )
+	//	{
+	//		TRACE("deflateInit error with error %d\n", ret);
+	//		return;
+	//	}
+
+	//	do
+	//	{
+	//		strm.avail_in = fread(in, 1, CHUNK, source);
+	//		if (ferror(source)) {
+	//			(void)deflateEnd(&strm);
+	//			return /*Z_ERRNO*/;
+	//		}
+	//		
+	//		int a =feof(source);
+	//		flush = (feof(source)!=0) ? Z_FINISH : Z_NO_FLUSH;
+	//		strm.next_in = in;
+
+	//		// Calc progress postition
+	//		nCurrentPos+=strm.avail_in/1024;
+	//		nTotalPos+=strm.avail_in/1024;
+	//		nTotalPos+=strm.avail_in%1024;
+
+	//		((CProgressCtrl*)GetDlgItem(IDC_CURRENT_PROGRESS))->SetPos(nCurrentPos);
+	//		((CProgressCtrl*)GetDlgItem(IDC_TOTAL_PROGRESS))->SetPos(nTotalPos);
+
+	//		/* run deflate() on input until output buffer not full, finish
+	//		compression if all of source has been read in */
+	//		do {
+
+	//			strm.avail_out = CHUNK;
+	//			strm.next_out = out;
+	//			ret = deflate(&strm, flush);    /* no bad return value */
+	//			ASSERT(ret != Z_STREAM_ERROR);  /* state not clobbered */
+	//			have = CHUNK - strm.avail_out;
+	//			if (fwrite(out, 1, have, dest) != have || ferror(dest)) {
+	//				(void)deflateEnd(&strm);
+	//				return /*Z_ERRNO*/;
+	//			}
+	//		} while(strm.avail_out == 0);
+	//		ASSERT(strm.avail_in == 0);
+
+	//		/* done when last data in file processed */
+	//	} while(flush != Z_FINISH);
+
+	//	ASSERT(ret == Z_STREAM_END);        /* stream will be complete */
+	//	(void)deflateEnd(&strm);
+
+	//	fclose(source);
+	//	fclose(dest);
+	//}
+
+	//((CButton*)GetDlgItem(IDC_LOAD_FILES))->EnableWindow(TRUE);
+	//((CButton*)GetDlgItem(IDC_REMOVE_FILE))->EnableWindow(TRUE);
+	//((CButton*)GetDlgItem(IDC_BUILD))->EnableWindow(TRUE);
+}
+
+
+//int inf(FILE *source, FILE *dest)
+//{
+//    int ret;
+//    unsigned have;
+//    z_stream strm;
+//    unsigned char in[CHUNK];
+//    unsigned char out[CHUNK];
+//
+//    /* allocate inflate state */
+//    strm.zalloc = Z_NULL;
+//    strm.zfree = Z_NULL;
+//    strm.opaque = Z_NULL;
+//    strm.avail_in = 0;
+//    strm.next_in = Z_NULL;
+//    ret = inflateInit(&strm);
+//    if (ret != Z_OK)
+//        return ret;
+//
+//    /* decompress until deflate stream ends or end of file */
+//    do {
+//        strm.avail_in = fread(in, 1, CHUNK, source);
+//        if (ferror(source)) {
+//            (void)inflateEnd(&strm);
+//            return Z_ERRNO;
+//        }
+//        if (strm.avail_in == 0)
+//            break;
+//        strm.next_in = in;
+//
+//        /* run inflate() on input until output buffer not full */
+//        do {
+//            strm.avail_out = CHUNK;
+//            strm.next_out = out;
+//            ret = inflate(&strm, Z_NO_FLUSH);
+//            assert(ret != Z_STREAM_ERROR);  /* state not clobbered */
+//            switch (ret) {
+//            case Z_NEED_DICT:
+//                ret = Z_DATA_ERROR;     /* and fall through */
+//            case Z_DATA_ERROR:
+//            case Z_MEM_ERROR:
+//                (void)inflateEnd(&strm);
+//                return ret;
+//            }
+//            have = CHUNK - strm.avail_out;
+//            if (fwrite(out, 1, have, dest) != have || ferror(dest)) {
+//                (void)inflateEnd(&strm);
+//                return Z_ERRNO;
+//            }
+//        } while (strm.avail_out == 0);
+//
+//        /* done when inflate() says it's done */
+//    } while (ret != Z_STREAM_END);
+//
+//    /* clean up and return */
+//    (void)inflateEnd(&strm);
+//    return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
+//}
