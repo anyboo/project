@@ -5,6 +5,8 @@
 #define IDCANCLE                        2
 #define IDC_SET                         3
 #define IDC_CANCEL2                     3
+#define ID_q                            3
+#define ID_QUIT                         101
 #define IDD_GAME_PLAZA                  102
 #define IDD_DLGFINDTABLE                104
 #define IDD_SHORT_MESSAGE               110

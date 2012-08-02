@@ -45,83 +45,6 @@ CTabCtrlLogon::~CTabCtrlLogon()
 //重画消息
 void CTabCtrlLogon::OnPaint()
 {
-	////变量定义
-	//CPaintDC dc(this);
-	//CSkinWndAttribute * pSkinAttribute=CSkinDialog::GetSkinAttribute();
-
-	////绘画背景
-	//CRect ClipRect,ClientRect;
-	//dc.GetClipBox(&ClipRect);
-	//dc.FillSolidRect(&ClipRect,pSkinAttribute->m_crBackGround);
-
-	////设置 DC
-	//dc.SetBkMode(TRANSPARENT);
-	//dc.SelectObject(pSkinAttribute->GetDefaultFont());
-	//
-	////绘画边框
-	//GetClientRect(&ClientRect);
-	//ClientRect.top+=18;
-	//ClientRect.bottom-=7;
-	//dc.Draw3dRect(&ClientRect,pSkinAttribute->m_crInsideBorder,pSkinAttribute->m_crInsideBorder);
-
-	////获取信息
-	//TCITEM ItemInfo;
-	//TCHAR szBuffer[100];
-	//memset(&ItemInfo,0,sizeof(ItemInfo));
-
-	//TCHAR szBuffer1[100];
-
-	//ItemInfo.mask=TCIF_TEXT|TCIF_IMAGE;
-	//ItemInfo.pszText=szBuffer;
-	//ItemInfo.cchTextMax=sizeof(szBuffer);
-
-	////绘画按钮
-	//CRect rcItem;
-	//CRect rcItem1;
-	//int iCursel=GetCurSel();
-	//CPen LinePen(PS_SOLID,1,pSkinAttribute->m_crInsideBorder);
-	//CPen * pOldPen=dc.SelectObject(&LinePen);
-	//for (int i=0;i<GetItemCount();i++)
-	//{
-	//	GetItem(i,&ItemInfo);
-	//	GetItemRect(i,&rcItem);
-	//	dc.FillSolidRect(&rcItem,pSkinAttribute->m_crBackGround);
-	//	dc.MoveTo(rcItem.left,rcItem.bottom-1);
-	//	dc.LineTo(rcItem.left,rcItem.top+2);
-	//	dc.LineTo(rcItem.left+2,rcItem.top);
-	//	dc.LineTo(rcItem.right-2,rcItem.top);
-	//	dc.LineTo(rcItem.right,rcItem.top+2);
-	//	dc.LineTo(rcItem.right,rcItem.bottom-1);
-	//	
-	//	if (iCursel!=i)
-	//	{
-	//		rcItem.top+=2;
-	//		dc.MoveTo(rcItem.left,rcItem.bottom-1);
-	//		dc.LineTo(rcItem.right,rcItem.bottom-1);
-	//		dc.SetTextColor(pSkinAttribute->m_crControlTXColor);
-	//		DrawText(dc,szBuffer,lstrlen(szBuffer),&rcItem,DT_VCENTER|DT_SINGLELINE|DT_CENTER);
-	//	}
-	//	else 
-	//	{
-	//		rcItem.top+=3;
-	//		dc.SetTextColor(SELECT_COLOR);
-	//		DrawText(dc,szBuffer,lstrlen(szBuffer),&rcItem,DT_VCENTER|DT_SINGLELINE|DT_CENTER);
-	//	}
-	//		
- //  
-	//}
-
- //   dc.SetTextColor(RGB(0,55,91));
-	//rcItem1.top=ClientRect.top+1;
-	//rcItem1.left=ClientRect.left+600;
-	//_snprintf(szBuffer1,sizeof(szBuffer1),TEXT("<--请选择登陆方式"));
-	//DrawText(dc,szBuffer1,lstrlen(szBuffer1),&rcItem1,DT_VCENTER|DT_SINGLELINE|DT_CENTER);
- //   
-	////清理资源
-	//dc.SelectObject(pOldPen);
-	//LinePen.DeleteObject();
-
-	return;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -490,7 +413,6 @@ CDlgLogon::CDlgLogon() : CSkinDialogEx(IDD_LOGON)
 	m_iLoadingPos = 0;
 	m_iLoaddingMax = 0;
 	m_rcLoading = CRect(0,0,0,0);
-	return;
 }
 
 //析构函数
@@ -520,7 +442,7 @@ BEGIN_MESSAGE_MAP(CDlgLogon, CSkinDialogEx)
 	ON_BN_CLICKED(IDC_DLG_LOGON_OPTION, OnOption)
 	//ON_BN_CLICKED(IDC_LOGIN_ID, OnTcnSelchangeLogonType1)
 	ON_WM_TIMER()
-	//ON_WM_PAINT()
+	ON_WM_PAINT()
 	ON_WM_SIZE()	
 	ON_WM_CTLCOLOR()
 	//ON_WM_ERASEBKGND()
@@ -531,6 +453,7 @@ void CDlgLogon::DoDataExchange(CDataExchange * pDX)
 {
 	__super::DoDataExchange(pDX);
 	DDX_Control(pDX, IDOK, m_btLogon);
+	DDX_Control(pDX, ID_QUIT,m_btQuit);
 	DDX_Control(pDX, IDCANCEL, m_btCancel);
 	DDX_Control(pDX, IDC_REGISTER, m_btRegister);
 	DDX_Control(pDX, IDC_DELETE_RECORD, m_btDelete);
@@ -553,8 +476,8 @@ void CDlgLogon::DoDataExchange(CDataExchange * pDX)
 	DDX_Control(pDX, IDC_PASSWORD_CONTRL, m_edUserPassword);
 	DDX_Control(pDX, IDC_USER_ID, m_boxUserID);
 	DDX_Control(pDX, IDC_STA_GAMEZHINAN, m_LineZhiNan);
-	DDX_Control(pDX, IDC_LOGON_BTN_USEACCOUNT, m_btUseAccount);
-	DDX_Control(pDX, IDC_LOGON_BTN_USEID, m_btUseId);
+	//DDX_Control(pDX, IDC_LOGON_BTN_USEACCOUNT, m_btUseAccount);
+	//DDX_Control(pDX, IDC_LOGON_BTN_USEID, m_btUseId);
 	DDX_Control(pDX, IDC_TABSEL1, m_tAbsel1);
 	DDX_Control(pDX, IDC_TABSEL2, m_tAbsel2);	
 	DDX_Control(pDX, IDC_REM_PASSWORD, m_chkRem);
@@ -638,15 +561,11 @@ BOOL CDlgLogon::OnInitDialog()
 	((CCheckButton *)GetDlgItem(IDC_STA_TIAOKUAN))->SetCheck(BST_CHECKED);
 
 	//设置按钮图片
-	m_btUseAccount.SetButtonImage(IDB_DLG_LOGON_BTN_ACTIVE, AfxGetInstanceHandle(),false);
-	m_btUseId.SetButtonImage(IDB_DLG_LOGON_BTN_NORMAL, AfxGetInstanceHandle(),false);
- 
-	//调整大小
-	//m_ImageBack.SetLoadInfo(IDB_DLG_LOGON,AfxGetInstanceHandle(), false);
 
-	m_pngBack.LoadImage(szResPath("LogonDlg\\LOGONBACK.png"));
+	m_pngBack.LoadImage(szResPath("LogonDlg\\login_win_bak.png"));
+	m_pngStatus.LoadImage(szResPath("LogonDlg\\login_win_bak.png"));
+	m_ImageBack.SetLoadInfo(szResPath("LogonDlg\\login_win_bak.png"));
 
-	CImageHandle ImageBack(&m_ImageBack);
 	CRect rcFrame1;
 	GetWindowRect(&rcFrame1);
 	rcFrame1.right = rcFrame1.left + m_pngBack.GetWidth();
@@ -656,43 +575,29 @@ BOOL CDlgLogon::OnInitDialog()
 	m_ImageBuffer.Destroy();
 	m_ImageBuffer.Create( m_pngBack.GetWidth(), m_pngBack.GetHeight(),24);
 
-	m_btCancel.ShowWindow(SW_HIDE);
-
-	m_btUseAccount.SetWindowText("用户名");
-	m_btUseAccount.BringWindowToTop();
-	m_btUseId.SetWindowText("用户ID");
-	m_btUseId.BringWindowToTop();
-
 	m_BrowerAD.MoveWindow(nXExcursion+3,nYExcursion+7, m_pngBack
 		.GetWidth()-8,87);
 	GetWindowRect(&m_rcNormalFrame);
 
 	SetLogonMode(m_LogonMode);
 	//设置按钮字体
-// 	m_btRegister.SetTextColor(RGB(255,255,255), RGB(71,105,87), true);
-// 	m_btDelete.SetTextColor(RGB(255,255,255), RGB(71,105,87), true);
-// 	m_btUseAccount.SetTextColor(RGB(255,255,255), RGB(71,105,87), true);
-// 	m_btUseId.SetTextColor(RGB(255,255,255), RGB(71,105,87), true);
-// 	m_btLogon.SetTextColor(RGB(255,255,255), RGB(71,105,87), true);
-// 	m_btCancel.ShowWindow(SW_SHOW);
-//	m_btRegister.SetButtonImage(IDB_DLG_LOGON_BTN,AfxGetInstanceHandle(),false);
-//	m_btDelete.SetButtonImage(IDB_DLG_LOGON_BTN, AfxGetInstanceHandle(),false);
 	m_btLogon.SetFocus();
 	m_chkRem.SetTextColor(RGB(0,0,0), RGB(141,218,222));
 	m_chkTiaoKuan.SetTextColor(RGB(0,0,0), RGB(141,218,222));
 
 	//滚动条
+	m_pngStatus.DestroyImage();
 	m_pngStatus.LoadImage(szResPath("LogonDlg\\Loading.png"));
 	m_rcLoading = CRect(3, 130, m_rcNormalFrame.Width()-3, 130+m_pngStatus.GetHeight());
 	m_iLoadingPos = 0;	
 	m_iLoaddingMax = m_pngStatus.GetWidth()-m_rcNormalFrame.Width() - 10;			//百分比位置
 	SetTimer(IDT_STATUS_MANGE, 50, 0);
-
+	m_btLogon.SetButtonImage(szResPath("LogonDlg\\IDB_DLG_LOGON_BTN_OK.BMP"), false);
+	m_btQuit.SetButtonImage(szResPath("LogonDlg\\IDB_DLG_LOGON_BTN_OK.BMP"),false);
 	m_btCancel.SetButtonImage(szResPath("LogonDlg\\IDB_DLG_LOGON_CLOSE.bmp"), false);
 	m_btCancel.ShowWindow(SW_SHOW);
-	m_btLogon.SetButtonImage(szResPath("LogonDlg\\IDB_DLG_LOGON_BTN_OK.BMP"), false);
-
-	m_btCancel.SetWindowPos(NULL, rcFrame1.Width()-48, 3, 0,0, SWP_NOSIZE);
+	m_btCancel.BringWindowToTop();
+	//m_btCancel.SetWindowPos(NULL, rcFrame1.Width()-48, 3, 0,0, SWP_NOSIZE);
 
 	//AfxGetMainWnd()->ShowWindow(0);
 	return FALSE;
@@ -707,13 +612,6 @@ BOOL CDlgLogon::PreTranslateMessage(MSG * pMsg)
 //确定函数
 void CDlgLogon::OnOK()
 {
-	//BOOL bRemTongYi=(((CButton *)GetDlgItem(IDC_OK_FUWU))->GetCheck()==BST_CHECKED);
-	//if(bRemTongYi!=true)
-	//{
-	//ShowInformation(TEXT("亲爱的用户,如果您想登陆大厅,请先同意条款！"),0,MB_ICONQUESTION);
-	//return;
-	//}
-
 	//效验输入
 	if (CheckLogonInput(true)==false) return;
 
@@ -725,11 +623,11 @@ void CDlgLogon::OnOK()
 	//ShowWindow(SW_HIDE);
 	//m_btRegister.EnableWindow(0);
 	//m_btDelete.EnableWindow(0);					//删除按钮
-	m_btLogon.EnableWindow(0);
-	m_boxUserIP.EnableWindow(0);
-	m_boxUserName.EnableWindow(0);
+	//m_btLogon.EnableWindow(0);
+	//m_boxUserIP.EnableWindow(0);
+	//m_boxUserName.EnableWindow(0);
 	 //m_edUserPassword.EnableWindow(0);
-	 m_btJiZhuMiMa.EnableWindow(0);
+	 //m_btJiZhuMiMa.EnableWindow(0);
 	IPlazaViewItem * pIPlazaViewItem=((CGameFrame*)AfxGetMainWnd())->GetPlazaViewItem();
 	ASSERT(pIPlazaViewItem!=NULL);
 	pIPlazaViewItem->SendConnectMessage();
@@ -745,13 +643,14 @@ void CDlgLogon::HuiFu()
 // 		rcImageRect.SetRect(0,LogoY,425,LogoY+20);
 
 //		InvalidateRect(&rcImageRect,FALSE);
-    m_btRegister.EnableWindow(5);
-	m_btDelete.EnableWindow(5);					//删除按钮
-	m_btLogon.EnableWindow(5);
-	m_boxUserIP.EnableWindow(5);
-	m_boxUserName.EnableWindow(5);
-	 m_edUserPassword.EnableWindow(5);
-	 m_btJiZhuMiMa.EnableWindow(5);
+    m_btRegister.EnableWindow(true);
+	m_btDelete.EnableWindow(true);					//删除按钮
+	m_btLogon.EnableWindow(true);
+	m_btQuit.EnableWindow(true);
+	m_boxUserIP.EnableWindow(true);
+	m_boxUserName.EnableWindow(true);
+	 m_edUserPassword.EnableWindow(true);
+	 m_btJiZhuMiMa.EnableWindow(true);
 }
 //取消消息
 void CDlgLogon::OnCancel()
@@ -1325,11 +1224,11 @@ void CDlgLogon::SetLogonMode(enLogonMode LogonMode)
 	case LogonMode_Accounts:	//帐号登录
 		{
 			//m_TabLogonMode.SetCurSel(LOGON_BY_ACCOUNTS);
-			SetDlgItemText(IDC_TYPE_NAME,TEXT("用 户 名"));
-			m_btUseAccount.SetTextColor(RGB(255,255,255));
-			m_btUseId.SetTextColor(RGB(0,0,0));
-			m_btUseId.SetButtonImage(IDB_DLG_LOGON_BTN_NORMAL, AfxGetInstanceHandle(), false);
-			m_btUseAccount.SetButtonImage(IDB_DLG_LOGON_BTN_ACTIVE, AfxGetInstanceHandle(), false);
+			//SetDlgItemText(IDC_TYPE_NAME,TEXT("用 户 名"));
+			//m_btUseAccount.SetTextColor(RGB(255,255,255));
+			//m_btUseId.SetTextColor(RGB(0,0,0));
+			//m_btUseId.SetButtonImage(IDB_DLG_LOGON_BTN_NORMAL, AfxGetInstanceHandle(), false);
+			//m_btUseAccount.SetButtonImage(IDB_DLG_LOGON_BTN_ACTIVE, AfxGetInstanceHandle(), false);
 			GetDlgItem(IDC_ACCOUNTS)->ShowWindow(SW_SHOW);
 			GetDlgItem(IDC_USER_ID)->ShowWindow(SW_HIDE);
 			m_tAbsel1.SetButtonImage(IDB_TABSEL,hResInstance,false);
@@ -1339,14 +1238,14 @@ void CDlgLogon::SetLogonMode(enLogonMode LogonMode)
 	case LogonMode_UserID:		//I D 登录
 		{
 			//m_TabLogonMode.SetCurSel(LOGON_BY_USERID);
-			SetDlgItemText(IDC_TYPE_NAME,TEXT("用 户 ID"));
+			//SetDlgItemText(IDC_TYPE_NAME,TEXT("用 户 ID"));
 			//GetDlgItem(IDC_STATIC)->ShowWindow(SW_HIDE);
 			GetDlgItem(IDC_ACCOUNTS)->ShowWindow(SW_HIDE);
 			GetDlgItem(IDC_USER_ID)->ShowWindow(SW_SHOW);
-			m_btUseId.SetTextColor(RGB(255,255,255));
-			m_btUseAccount.SetTextColor(RGB(0,0,0));
-			m_btUseAccount.SetButtonImage(IDB_DLG_LOGON_BTN_NORMAL, AfxGetInstanceHandle(), false);
-			m_btUseId.SetButtonImage(IDB_DLG_LOGON_BTN_ACTIVE, AfxGetInstanceHandle(), false);
+			//m_btUseId.SetTextColor(RGB(255,255,255));
+			//m_btUseAccount.SetTextColor(RGB(0,0,0));
+			//m_btUseAccount.SetButtonImage(IDB_DLG_LOGON_BTN_NORMAL, AfxGetInstanceHandle(), false);
+			//m_btUseId.SetButtonImage(IDB_DLG_LOGON_BTN_ACTIVE, AfxGetInstanceHandle(), false);
 			m_tAbsel2.SetButtonImage(IDB_TABSEL,hResInstance,false);
 		    m_tAbsel1.SetButtonImage(IDB_TABUNSEL,hResInstance,false);
 			break;

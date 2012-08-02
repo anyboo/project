@@ -162,6 +162,7 @@ protected:
 	//按钮变量
 public:
 	CSkinButton							m_btLogon;						//登录按钮
+	CSkinButton							m_btQuit;						//退出按钮
 	CSkinButton							m_btCancel;						//取消按钮
 	CGdiButton							m_btDelete;						//删除按钮
 	CSkinButton							m_btJiZhuMiMa;					//记录密码
@@ -172,8 +173,8 @@ public:
 	CSkinButton							m_tAbsel1;						//取消按钮
 	CSkinButton							m_tAbsel2;						//删除按钮
 
-	CSkinButton							m_btUseAccount;					//用户名登录
-	CSkinButton							m_btUseId;						//ID登录
+	//CSkinButton							m_btUseAccount;					//用户名登录
+	//CSkinButton							m_btUseId;						//ID登录
 
 	//控件变量
 public:

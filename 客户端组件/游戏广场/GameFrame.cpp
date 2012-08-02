@@ -332,17 +332,17 @@ BOOL CGameFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 			QieHuanZhangHao();
 			return TRUE;
 		}
-	case  IDC_BT_BUTTON_2:			//主页
-		{
-			ShellExecute(NULL,TEXT("open"),TEXT("http://www.7x78.com/"),NULL,NULL,SW_SHOWDEFAULT);
-			return TRUE;
-		}
-	case  IDC_BT_BUTTON_3:			//充值
+	case  IDC_BT_BUTTON_2:			//充值
 		{
 			WebBrowse(TEXT("http://www.7x78.com/PayIndex.asp"),true);
 			return TRUE;
 		}
-	case  IDC_BT_BUTTON_4:			//银行
+	case  IDC_BT_BUTTON_3:			//主页
+		{
+			ShellExecute(NULL,TEXT("open"),TEXT("http://www.7x78.com/"),NULL,NULL,SW_SHOWDEFAULT);
+			return TRUE;
+		}
+	case  IDC_BT_BUTTON_6:			//银行
 		{
 			tagGlobalUserData &GlobalUserData=g_GlobalUnits.GetGolbalUserData();
 
@@ -378,12 +378,12 @@ BOOL CGameFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 
 			return TRUE;
 		}
-	case  IDC_BT_BUTTON_5:			//商城
+	case  IDC_BT_BUTTON_7:			//商城
 		{
 			WebBrowse(TEXT("http://www.7x78.com/ShopIndex.asp"),true);
 			return TRUE;
 		}
-	case  IDC_BT_BUTTON_6:			//绑机
+	case  IDC_BT_BUTTON_4:			//绑机
 		{
 			//获取玩家
 			tagGlobalUserData &GlobalUserData=g_GlobalUnits.GetGolbalUserData();
@@ -459,7 +459,7 @@ BOOL CGameFrame::OnCommand(WPARAM wParam, LPARAM lParam)
 			}
 			return TRUE;
 		}
-	case  IDC_BT_BUTTON_7:			//退出
+	case  IDC_BT_BUTTON_5:			//退出
 		{
 			CloseCurrentViewItem();
 			return TRUE;
@@ -746,7 +746,7 @@ bool CGameFrame::UpdateSkinResource()
 // 	m_ImageServerM.SetLoadInfo(ControlViewImage.uServerIfnoM,hInstance);
 // 	m_ImageServerB.SetLoadInfo(ControlViewImage.uServerIfnoB,hInstance);
 
-	m_ImageServerT.SetLoadInfo(szResPath("Frame\\SERVER_LIST_T.BMP"));
+	m_ImageServerT.SetLoadInfo(szResPath("Frame\\SERVER_LIST_T.png"));
 	m_ImageServerM.SetLoadInfo(szResPath("Frame\\SERVER_LIST_M.BMP"));
 	m_ImageServerB.SetLoadInfo(szResPath("Frame\\SERVER_LIST_B.BMP"));
 
@@ -772,7 +772,7 @@ bool CGameFrame::UpdateSkinResource()
 
 	m_EncircleFrame.ImageML.SetLoadInfo(szResPath("Frame\\FRAME_ML.bmp"));
 	m_EncircleFrame.ImageMR.SetLoadInfo(szResPath("Frame\\FRAME_MR.bmp"));
-	m_EncircleFrame.ImageTL.SetLoadInfo(szResPath("Frame\\FRAME_TL.bmp"));
+	m_EncircleFrame.ImageTL.SetLoadInfo(szResPath("Frame\\mainBackground_13.png"));//七星LOGO
 	m_EncircleFrame.ImageTM.SetLoadInfo(szResPath("Frame\\FRAME_TM.bmp"));
 	m_EncircleFrame.ImageTR.SetLoadInfo(szResPath("Frame\\FRAME_TR.bmp"));
 	m_EncircleFrame.ImageBL.SetLoadInfo(szResPath("Frame\\FRAME_BL.bmp"));
@@ -819,13 +819,13 @@ bool CGameFrame::UpdateSkinResource()
 // 	m_btButton6.SetButtonImage(TEXT(szResPath("Frame\\NavigatBtn6.png"),false);
 // 	m_btButton7.SetButtonImage(TEXT(szResPath("Frame\\NavigatBtn7.png"),false);
 
-	m_btButton1.SetButtonImage(szResPath("Frame\\NavigatBtn1.bmp"),false);
-	m_btButton2.SetButtonImage(szResPath("Frame\\NavigatBtn2.bmp"),false);
-	m_btButton3.SetButtonImage(szResPath("Frame\\NavigatBtn3.bmp"),false);
-	m_btButton4.SetButtonImage(szResPath("Frame\\NavigatBtn4.bmp"),false);
-	m_btButton5.SetButtonImage(szResPath("Frame\\NavigatBtn5.bmp"),false);
-	m_btButton6.SetButtonImage(szResPath("Frame\\NavigatBtn6.bmp"),false);
-	m_btButton7.SetButtonImage(szResPath("Frame\\NavigatBtn7.bmp"),false);
+	m_btButton1.SetButtonImage(szResPath("Frame\\NavigatBtn1.bmp"),false);//登录
+	m_btButton2.SetButtonImage(szResPath("Frame\\NavigatBtn3.bmp"),false);//充值
+	m_btButton3.SetButtonImage(szResPath("Frame\\NavigatBtn2.bmp"),false);//主页
+	m_btButton4.SetButtonImage(szResPath("Frame\\NavigatBtn6.bmp"),false);//绑机
+	m_btButton5.SetButtonImage(szResPath("Frame\\NavigatBtn7.bmp"),false);//退出
+	//m_btButton6.SetButtonImage(szResPath("Frame\\NavigatBtn6.bmp"),false);
+	//m_btButton7.SetButtonImage(szResPath("Frame\\NavigatBtn7.bmp"),false);
 
 	//m_btButton1.LoadStdImage(szResPath("LogonDlg\\BtStart.png", true);
 
@@ -847,11 +847,11 @@ bool CGameFrame::UpdateSkinResource()
 
 	m_BrowerToolBarAd.ShowWindow(0);
 	//用户信息
-	m_btFanKui.LoadStdImage(szResPath("Frame\\fankui.png"), true);
-	m_btMember.LoadStdImage(szResPath("Frame\\vip.png"), true);
-	m_btSafe.LoadStdImage(szResPath("Frame\\safe.png"), true);
-	m_btBbs.LoadStdImage(szResPath("Frame\\bbs.png"), true);
-	m_btFont.LoadStdImage(szResPath("Frame\\font.png"), true);
+	m_btFanKui.LoadStdImage(szResPath("Frame\\button055.png"), true);
+	m_btMember.LoadStdImage(szResPath("Frame\\button022.png"), true);
+	m_btSafe.LoadStdImage(szResPath("Frame\\button011.png"), true);
+	m_btBbs.LoadStdImage(szResPath("Frame\\button044.png"), true);
+	m_btFont.LoadStdImage(szResPath("Frame\\button033.png"), true);
 	//客户按钮;
 
 	//列表按钮
