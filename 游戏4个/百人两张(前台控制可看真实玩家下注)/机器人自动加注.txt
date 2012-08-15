@@ -1,0 +1,99 @@
+[SetRobot]
+IsAdd=1  ;是否启用机器人自动加金币功能 0为不启用,1为启用
+RobotMoneyLine=10000    ;如果一局过后的金币少于此数目后
+RobotAddScore=500000   ;自动增加金币数
+RoboMaxMoney=800000 ;如果机器人金币超过的此金额后
+Setlower=10  ;则自动扣除百分之几
+
+
+	int IsAdd;
+	int Setlower;
+	LONGLONG RoboMaxMoney;
+	LONGLONG RobotAddScore;
+	LONGLONG RobotMoneyLine;
+
+
+	   // TCHAR OutBuf[255] = TEXT("");
+        ZeroMemory(OutBuf, sizeof(OutBuf));
+	    GetPrivateProfileString(TEXT("SetRobot"), TEXT("RobotMoneyLine"), TEXT("100000"), OutBuf, 255, m_szConfigFileName);
+	    _snscanf(OutBuf, strlen(OutBuf), _T("%I64d"), &RobotMoneyLine);
+
+	   ZeroMemory(OutBuf, sizeof(OutBuf));
+	   GetPrivateProfileString(TEXT("SetRobot"), TEXT("RobotAddScore"),TEXT("500000"), OutBuf, 255, m_szConfigFileName);
+	  _snscanf(OutBuf, strlen(OutBuf), _T("%I64d"), &RobotAddScore);
+
+	  ZeroMemory(OutBuf, sizeof(OutBuf));
+	  GetPrivateProfileString(TEXT("SetRobot"), TEXT("RoboMaxMoney"), TEXT("1000000"), OutBuf, 255, m_szConfigFileName);
+	  _snscanf(OutBuf, strlen(OutBuf), _T("%I64d"), &RoboMaxMoney);
+
+     Setlower = GetPrivateProfileInt(TEXT("SetRobot"), TEXT("Setlower"), 10, m_szConfigFileName);
+     IsAdd= GetPrivateProfileInt(TEXT("SetRobot"), TEXT("IsAdd"), 0, m_szConfigFileName);
+
+
+
+
+
+          //机器人自动加分
+					if(pIServerUserItem->IsAndroidUser()==true)
+					{
+#ifdef _DEBUG
+								//机器人自动加分
+		 							TCHAR szTipMsg[128];
+									_sntprintf(szTipMsg,CountArray(szTipMsg),TEXT("底分%I64d - 加注额%I64d - 超额线%I64d - 减去比率%d - 启用%d"),RobotMoneyLine,RobotAddScore,RoboMaxMoney,Setlower ,IsAdd);
+									SendGameMessage(INVALID_CHAIR,szTipMsg);
+#endif
+								RobotAddMoney (RobotMoneyLine,RobotAddScore,RoboMaxMoney,Setlower ,IsAdd);
+					}
+
+
+
+
+
+		//机器人自动加分
+   void RobotAddMoney (LONGLONG RobotMoneyLine,LONGLONG RobotAddScore,LONGLONG RoboMaxMoney,int Setlower ,int IsAdd);
+
+
+ void CTableFrameSink::RobotAddMoney (LONGLONG RobotMoneyLine,LONGLONG RobotAddScore,LONGLONG RoboMaxMoney,int Setlower ,int IsAdd)
+{
+    LONGLONG Myscore,bakstr;
+	CString strtmp;
+      if (IsAdd) 
+       {
+			for( WORD i = 0; i < GAME_PLAYER; i++ )
+			{
+				
+              bakstr=0;
+			  strtmp="不变";
+			  IServerUserItem *pServerUserItem = m_pITableFrame->GetServerUserItem(i);
+               if (pServerUserItem != NULL && pServerUserItem->IsAndroidUser())
+                {
+
+				   Myscore = (LONGLONG)m_pITableFrame->GetServerUserItem(i)->GetUserScore()->lScore;
+                   if (Myscore<RobotMoneyLine) 
+				   {
+					   Myscore=Myscore+RobotAddScore;
+					   bakstr=RobotAddScore;
+					   strtmp="底限自动加+";
+				   }
+				   if (Myscore>RoboMaxMoney)
+				   { 
+					   
+					   bakstr=Myscore*Setlower/100;
+					   Myscore=Myscore-bakstr;
+					   bakstr=(-1)*bakstr;
+					   strtmp="超限自动减-";
+				   }
+
+#ifdef _DEBUG
+			     TCHAR szTipMsg[128];
+			    _sntprintf(szTipMsg,CountArray(szTipMsg),TEXT("机器人%s: 原数据库分数%I64d %s%I64d= 现在分数%I64d "),m_pITableFrame->GetServerUserItem(i)->GetUserData()->szAccounts,(LONGLONG)m_pITableFrame->GetServerUserItem(i)->GetUserScore()->lScore,strtmp,bakstr,Myscore);
+			     SendGameMessage(INVALID_CHAIR,szTipMsg);
+#endif
+
+			     if (bakstr!=0) m_pITableFrame->WriteUserScore(i,bakstr,0,enScoreKind_Present);
+                }
+
+			}
+
+       }
+}

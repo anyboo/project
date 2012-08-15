@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "信道模块", "客户端组件\信道模块\ChannelModule.vcproj", "{0D9684CE-A441-4D80-B449-C3AE8281C93B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{48A17E45-3F15-4ACC-92DE-DA57DA6C360B} = {48A17E45-3F15-4ACC-92DE-DA57DA6C360B}
